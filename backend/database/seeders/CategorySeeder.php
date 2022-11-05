@@ -19,15 +19,15 @@ class CategorySeeder extends Seeder
         DB::table('categories')->insert([
             [
                 'name' => 'Food',
-                'email' => 'food',
+                'slug' => 'food',
             ],
             [
                 'name' => 'Vegetables',
-                'email' => 'vegetables',
+                'slug' => 'vegetables',
             ],
             [
                 'name' => 'Frozen',
-                'email' => 'frozen',
+                'slug' => 'frozen',
             ]
         ]);
     }
