@@ -19,7 +19,7 @@ class ProductRepository implements ProductRepositoryInterface {
 
     private function productImageUpload($product_id, $product_images) {
         foreach($product_images as $product_image) {
-            $image_name = $this->fileUploadService->uploadFile($product_image, Product::FILE_STORE_PATH);
+            $image_name = $this->fileUploadService->uploadFile($product_image, ProductImage::FILE_STORE_PATH);
             ProductImage::create([
                 'product_id' => $product_id,
                 'image' => $image_name
@@ -45,6 +45,28 @@ class ProductRepository implements ProductRepositoryInterface {
 //            $size = $val;
 //            $color = $color_temp[$key];
 //        }
+    }
+
+    public function getAllProducts()
+    {
+        $products = [];
+        $user = auth('sanctum')->user();
+        if($user) {
+            $products = Product::where('user_id', $user->id)->latest()->get();
+        }
+        return response()->json($products);
+    }
+
+    public function getProductDetails($slug)
+    {
+        $data = Product::with(['product_attributes', 'product_images'])->where('slug', $slug)->first();
+        return response()->json($data);
+    }
+
+    public function deleteProduct($slug) {
+        $product = Product::where('slug', $slug)->first();
+        $product->delete();
+        return response()->json(['message' => 'Product deleted successfully.']);
     }
 
     public function addProduct($request) {

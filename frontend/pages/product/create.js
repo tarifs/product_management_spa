@@ -229,7 +229,7 @@ const ProductCreate = () => {
               </div>
               {attribute.map((data, index) => {
                 return (
-                  <div className="mb-3">
+                  <div className="mb-3" key={index}>
                     <Row>
                       <Col md={4}>
                         <label>Size: </label>

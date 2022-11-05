@@ -23,7 +23,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        return $this->productRepository->getAllProducts();
     }
 
     /**
@@ -50,12 +50,12 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        return $this->productRepository->getProductDetails($slug);
     }
 
     /**
@@ -84,11 +84,11 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $slug
+     * @return void
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        return $this->productRepository->deleteProduct($slug);
     }
 }
