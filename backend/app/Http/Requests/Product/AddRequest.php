@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\SentMoney;
+namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRequest extends FormRequest
+class AddRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,13 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'sender_amount' => ['required', 'min:1'],
-            'sender_currency' => ['required'],
-            'sender_id' => ['required'],
-            'receiver_id' => ['required'],
+            'name' => ['required', 'string', 'max:255'],
+            'user_id' => ['required'],
+            'price' => ['required'],
+            'product_images' => ['required'],
+            'sizes' => ['required'],
+            'colors' => ['required'],
+            'category_ids' => ['required'],
         ];
     }
 }

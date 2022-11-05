@@ -1,13 +1,13 @@
-import UserLayout from "../../components/layouts/UserLayout";
+import UserLayout from "../components/layouts/UserLayout";
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AppUrl from "../../service/AppUrl";
-import Api from "../../service/Api";
+import AppUrl from "../service/AppUrl";
+import Api from "../service/Api";
 import { toast } from "react-toastify";
-import AuthenticatedRoute from "../../components/AuthenticatedRoute";
-import AppStorage from "../../service/AppStorage";
-import PreLoader from "../../components/partials/PreLoader";
+import AuthenticatedRoute from "../components/AuthenticatedRoute";
+import AppStorage from "../service/AppStorage";
+import PreLoader from "../components/partials/PreLoader";
 
 const Products = () => {
   const [loading, setLoading] = useState(false);
@@ -167,4 +167,4 @@ const Products = () => {
   );
 };
 
-export default AuthenticatedRoute(SentMoney);
+export default AuthenticatedRoute(Products);

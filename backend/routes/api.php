@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Products\ProductsController;
+use App\Http\Controllers\Api\Category\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +26,5 @@ Route::group(['as' => 'api.'], function () {
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('products', ProductsController::class);
+    Route::get('/categories', [CategoryController::class, 'index']);
 });

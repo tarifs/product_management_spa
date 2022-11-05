@@ -3,10 +3,19 @@
 namespace App\Http\Controllers\Api\Products;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\AddRequest;
+use App\Interfaces\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
+    private ProductRepositoryInterface $productRepository;
+
+    public function __construct(ProductRepositoryInterface $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,9 +42,9 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddRequest $request)
     {
-        //
+        return $this->productRepository->addProduct($request);
     }
 
     /**
