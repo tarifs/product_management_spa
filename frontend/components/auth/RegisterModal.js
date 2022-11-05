@@ -40,6 +40,7 @@ function RegisterModal(props) {
           setErrors("");
           props.onHide();
           props.afterRegistration(res.data);
+          location.reload();
         }
       })
       .catch((error) => {
