@@ -28,8 +28,7 @@ class AddRequest extends FormRequest
             'user_id' => ['required'],
             'price' => ['required'],
             'product_images' => ['required'],
-            'sizes' => ['required'],
-            'colors' => ['required'],
+            'product_attributes' => ['required'],
             'category_ids' => ['required'],
         ];
     }

@@ -53,21 +53,19 @@ const Products = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      defaultSortOrder: "ascend",
       sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
       title: "Price ($)",
       dataIndex: "price",
       key: "price",
-      render: (_, recipe) => <p>{recipe.price}</p>,
-      defaultSortOrder: "ascend",
+      render: (_, data) => <p>{data.price}</p>,
       sorter: (a, b) => a.price - b.price,
     },
     {
       title: "Action",
       key: "action",
-      render: (_, product) => (
+      render: (_, data) => (
         <Space size="middle">
           <Dropdown
             trigger={["click"]}
@@ -81,7 +79,7 @@ const Products = () => {
                     label: (
                       <a
                         onClick={() => {
-                          showProduct(product.slug);
+                          showProduct(data.slug);
                         }}
                       >
                         Show
@@ -97,7 +95,7 @@ const Products = () => {
                             "Do you really want to delete?"
                           );
                           if (confirmBox === true) {
-                            deleteProduct(product.slug);
+                            deleteProduct(data.slug);
                           }
                         }}
                       >

@@ -10,8 +10,10 @@ import AppStorage from "../../service/AppStorage";
 import { Row, Col } from "react-bootstrap";
 import Select from "react-select";
 import { RMIUploader } from "react-multiple-image-uploader";
+import { useRouter } from "next/router";
 
 const ProductCreate = () => {
+  const router = useRouter();
   const [errors, setErrors] = useState("");
   const [processing, setProcessing] = useState(false);
   const initialState = {
@@ -22,10 +24,13 @@ const ProductCreate = () => {
   const [data, setData] = useState(initialState);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [size, setSize] = useState([]);
-  const [color, setColor] = useState([]);
   const [files, setFiles] = useState([]);
-  const [attribute, setAttribute] = useState([{ index: 0 }]);
+  const [attribute, setAttribute] = useState([
+    {
+      size: "",
+      color: "",
+    },
+  ]);
 
   const [visible, setVisible] = useState(false);
 
@@ -72,25 +77,35 @@ const ProductCreate = () => {
   };
 
   const addAttribute = (val) => {
-    const demo = [...attribute, { index: val, close: "active" }];
+    const demo = [
+      ...attribute,
+      {
+        size: "",
+        color: "",
+      },
+    ];
     setAttribute(demo);
   };
 
   const removeAttribute = (value) => {
-    const demo = attribute.filter((data) => {
-      return data.index !== value;
+    const demo = attribute.filter((data, index) => {
+      return index !== value;
     });
     setAttribute(demo);
   };
 
   const sizeHandler = (val, index) => {
-    const data = [...size, { key: index, val: val }];
-    setSize(data);
+    attribute[index] = {
+      color: attribute[index].color,
+      size: val,
+    };
   };
 
   const colorHandler = (val, index) => {
-    const data = [...color, { key: index, val: val }];
-    setColor(data);
+    attribute[index] = {
+      color: val,
+      size: attribute[index].size,
+    };
   };
 
   useEffect(() => {
@@ -120,17 +135,17 @@ const ProductCreate = () => {
     formData.append("name", data.name);
     formData.append("user_id", data.user_id);
     formData.append("price", data.price);
-    formData.append("sizes", size);
-    formData.append("colors", color);
-    files && files
-      .forEach(function (data) {
+    formData.append("product_attributes", JSON.stringify(attribute));
+    files &&
+      files.forEach(function (data) {
         formData.append("product_images[]", data.file);
       });
-    selectedCategories && selectedCategories
-      .map((category) => category.value)
-      .forEach(function (data) {
-        formData.append("category_ids[]", data);
-      });
+    selectedCategories &&
+      selectedCategories
+        .map((category) => category.value)
+        .forEach(function (data) {
+          formData.append("category_ids[]", data);
+        });
     await axios
       .post(AppUrl.products, formData, { headers: Api.getHeaders() })
       .then((res) => {
@@ -138,6 +153,7 @@ const ProductCreate = () => {
           toast.success(res.data.message);
           setProcessing(false);
           setErrors("");
+          router.push('/products');
         }
       })
       .catch((error) => {
@@ -259,7 +275,7 @@ const ProductCreate = () => {
                         >
                           Add more
                         </button>
-                        {data.close ? (
+                        {index > 0 ? (
                           <button
                             className="btn btn-danger rounded-5 mt-5 mx-2"
                             type="button"
@@ -277,7 +293,7 @@ const ProductCreate = () => {
               })}
               <div className="mb-3">
                 <label htmlFor="product_images" className="form-label">
-                  Product Images
+                  Product Images (Please click the upload logo at the image upload section before submit the form. It plugin problem did not get time.)
                 </label>
                 <RMIUploader
                   isOpen={visible}
